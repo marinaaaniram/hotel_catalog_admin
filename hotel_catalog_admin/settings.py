@@ -23,10 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3xr%v&4t1hkb0#aud+yw-l0m=)7ay*z(#8=aujfpdr)_4b6nxd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+AUTH_USER_MODEL = 'users.User'
+AUTH_USER_USERNAME_FIELD = 'email'
+AUTH_JWT_ALGORITHM = 'HS256'
 
 # Application definition
 
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
+    'users',
     'hotels',
     'references',
 ]
@@ -147,7 +151,15 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.TokenAuthentication',
+        'users.jwt_auth.JWTAuthentication',
+    )
 }
+
 
 
 
