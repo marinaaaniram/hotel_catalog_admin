@@ -7,6 +7,7 @@ RUN export LC_ALL="en_US.UTF-8"
 RUN export LC_CTYPE="en_US.UTF-8"
 
 RUN apt-get update
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir -r requirements.txt

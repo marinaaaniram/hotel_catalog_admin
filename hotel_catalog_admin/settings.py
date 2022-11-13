@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,16 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3xr%v&4t1hkb0#aud+yw-l0m=)7ay*z(#8=aujfpdr)_4b6nxd'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[])
 
 AUTH_USER_MODEL = 'users.User'
 AUTH_USER_USERNAME_FIELD = 'email'
-AUTH_JWT_ALGORITHM = 'HS256'
+AUTH_JWT_ALGORITHM = config('AUTH_JWT_ALGORITHM', default='HS256')
 
 # Application definition
 
@@ -42,10 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
 
     'users',
     'hotels',
@@ -135,18 +132,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SITE_ID = 1
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'APP': {
-            'client_id': '108385442871730998734',
-            'secret': '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC78eQUz1xb44Qi\nO11fvSkCpI9imZidnZ+mH1/xtj93Um5s/SSkR4oeZz5PPh9W4Ox9GzyIsu7oUJ+n\nFdB7430sR2a3pDQHtce4w6XzlFRgnRgAS90V6Y4qyKqX/GfXwfFIX1DwimwxlFvg\neyg5vaLvKyO1zql3qSgX6LmrbrgXsy9HOn4BnPLBREcSc223xOk3O1fyuZYMnCFn\nxJnYFf/AzHvJ0vwTI1m4U68smcD2FjziO/3+5L+DYrwc4wGDy/vMhmMY7uf7I9p2\nFVjYSP4xlNZ9508OOo4gUUrVeU3i9yiFE5Orak+cWgnv0yCaW/4UpGdkHm5tlEaK\np/5g67qnAgMBAAECggEAEqo0oP5w6S1Ap5emr8Xc50bJeJzRY8HOI5TVFe+oAOUe\nU1OWinwSUu+k6AC+4wVmZwxH6DmA8XBkUpcfg9Y1TarvoAg+JI/gfFBt0DFoacng\nItNl6vGtbUFNc9ecxngbyriwlJrioM/fif0hIw7aug7aNomGGfyiHzG9ErHltXCp\n5zTmH0kmqoEicogpDMBdToxyPxsa1of0Xeed8jAZbbCWT2hp87Beep/U83Tb1YVB\n+EK3oWZSRsw22DPXNCq1JrxFihlMQc+68rz6iSkFA6BrUmC7K1oNT0ODYtaSejIp\nlUcAPRTBFXMOtcWrExv804T3eYjtarZ8uOQXc8FQNQKBgQDuSH4/iKVczjba7FIa\nmUlFGlDXXXbUSsSq3U4H79EKi32szuasCZs31oBf84lI81lv8vx2VnpRH+iM1bcc\nLaWwJuqx4q4wrfNYIt7aI6Obf3//N/RT4dd75CJOHee4ZVX4h9KvDCGxp/ehoSuG\nUz9QuNOn1ZqoWKIqaR/IcRoz2wKBgQDJ60Dm49MbKi+LvyHLIMmOzDvU6U1M5JnF\n4aVSw/uTxMFdzJRtnJsGfKDrstjrPfMy3aOjG5rX6jGb/4nYyfg5TNsbLjw30YG9\n1l9K1uIl/7A6idsVmh4sPdeuaRnDPo2qzzr5CGvpfGmjc43TZfdpWe+BzbUUbZEy\nC1sA3Nl0JQKBgDLn19jY54MBJyT0EcJO9yFFMvofpJBL/OIH73Cwojcff9TYSt18\nG+X89GYLUEv+eR/6iEb7yJvmNjdIPRtPATO1zLP+GnqZ3v/4SyXNMVm6Dm1G1fLJ\nr9Bu94k6yFNTit9SnQb6j4Q1vyiPlw3WYRNsuQMFFkpazSJEXR7kUtW7AoGBALMN\nRUE5d6MYFo9ijtH0oidZnhjgRWbRNDcQMC0jkzxm9l16I4jLnYD0FTLNJqP8DGPn\nvMrPmNCsYQ+HW7J87vvI1mbU6htJUjaIGXpg8Ktnf9t5EWingOgUcuS7WFgVaUS1\nfQMGX8LtSzPhLTvvqKSoVsWRJ2kU+/MXtLwgG0htAoGAPF3YoUNKGCYdFr1xf1sZ\nIpMZXjtfGhFkHHP/ZQdOu6N1LMnRiI5TP1RCqjtaKnbF5rjc82WlwG/wVxodpujI\n+8tu/n+HJlMk2tVWxoq0hJHFSD9L4KgXnfM5DzlQBjzH2yFWGG8w5IzJzNybJ6ZA\nmIcCFv3LWQQKuuazV2vIJKw=\n-----END PRIVATE KEY-----\n',
-            'key': '8c37daace18694cf06e73c57fd948982fc208e6e'
-        }
-    }
-}
-
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -155,7 +140,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.TokenAuthentication',
         'users.jwt_auth.JWTAuthentication',
     )
 }
