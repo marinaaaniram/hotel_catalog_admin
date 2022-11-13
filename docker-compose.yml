@@ -3,7 +3,6 @@ version: '3.8'
 services:
   hotel-catalog-admin:
     container_name: hotel-catalog-admin
-    image: hotel-catalog-admin
     restart: always
     env_file: .env.local
     build: .
